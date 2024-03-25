@@ -1,0 +1,42 @@
+Jaehoon Yang / 2018147593
+
+# Utility functions 
+char *extract_first_word(char **from)
+This function extract the first word from the input and remove it from the input. The first word is stored in dynamic allocated memory and the start point of the input is moved.
+
+void add_str(char ***array, const char *str, unsigned *size) 
+Append the input string str into array and increase the size by one.
+
+void remove_user(char ***array, int index, unsigned *size)
+Remove the index-th element from the array and decrease the size by one.
+
+int get_whitespace(char **input)
+Count the number of the whitespace in the input and return it.
+
+# Variables
+ - char *owner: stores the owner of the house who can change locks.
+ - char **keys: stores the keys which are valid to turn the lock and can store the arbitrary number of strings and the arbitrary length of strings by dynamic allocation and reallocation.
+ - unsigned total_keys: the length of variable keys.
+ - char **users_in: stores the usernames which are in the house and can store the arbitrary number of strings and the arbitrary length of strings by dynamic allocation and reallocation.
+ - unsigned total_in: the length of variable users_in.
+ - char *inserted_key: stores the current inserted key and can store the arbitrary length of string.
+ - int is_opened: shows the door is open or not. If this value is true, the door is opened. Otherwise, the door is closed.
+
+# Overall workflow
+1. Store the value of argv[1] into variable of owner and values of argv[2], ... , argv[n] into variable of keys.
+2. Repeat the following 3, 4 processes until the input is an empty newline.
+3. Process a line of the input: input variable need to have a line of the input even if it is very long by using dynamic allocation with malloc and realloc. 
+4. The process logic depends on the first word of an input.
+ - If the first word is "INSERT", check whether the remaining part of the input has two whitespaces. If it does not, print ERROR. If it does, the program extracts the first word and checks if it is "KEY". If it is, insert the key and reset the lock state (close the door). Otherwise, print ERROR.
+
+ - If the first word is "TURN", check if the remaining part of the input has a whitespace. If it does not, print ERROR. If it does, the program extracts the first word and checks if it is "KEY". If it is, extracts the first word again and check if there is an inserted key. If it does not, print "FAILUE <key> HAD NO KEY INSERTED". Otherwise, check whether the inserted key is in the list of keys variable. If it is in there, print "SUCCESS <username> TURNS KEY <key>". Otherwise, print "FAILURE <username> HAD INVALID KEY <key> INSERTED".
+ 
+ - If the first word is "ENTER", check if the remaining part of the input has a whitespace. If it does not, print ERROR. If it does, the program extracts the first word and checks if it is "HOUSE". If it is, checks if the door is opened and if it does not, print "ACCESS DENIED". Otherwise, extracts the first word and adds it to variable of users_in. Finally, the lock is reseted.
+ 
+ - If the first word is "WHO'S", check whether the remaining part of the input has no whitespace. If it does not, print ERROR. If it does, the program extracts the first word again and checks if it is "INSIDE?". If it is, print all words in variable of users_in. Otherwise, print "ERROR".
+
+ - If the first two words are not "CHANGE LOCKS", print "ERROR". Otherwise, check if some characters must exist in the remaining part of the input except for the blanks. If it does, the program checks the first word is same as the variable of owner. If it does not, print "ERROR". And the program finds the variable owner is in the list of users_in variable. If it is in variable of users_in, the program checks the remaining input is correct format while storing the keys into the new keys_temp variable. Then, if the remaining part is all correct format, switch the pointers of keys and keys_temp and free all element in keys variable and keys variable itself. Otherwise, print "LOCK CHANGE DENIED". Finally, resets the lock state and print "LOCK CHANGED".
+ 
+ - If the first word is "LEAVE", check if the remaining part of the input has a whitespace. If it does not, print "ERROR". If it does, the program extracts the first word and checks if it is "HOUSE". If it is not, print "ERROR". Otherwise, extracts the first word and checks if it is in the variable of total_in. If it is not, print "<username> NOT HERE". Otherwise, print "<username> LEFT" and remove the i-th word in users_in variable.
+
+5. Free the dynamically allocated memory such as input, owner, keys, users_in, and inserted_key.

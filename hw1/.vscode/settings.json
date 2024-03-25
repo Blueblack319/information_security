@@ -1,0 +1,9 @@
+{
+    "C_Cpp.default.compilerPath": "/home/hoon/Documents/hw1/secure_house.c",
+    "files.associations": {
+        "stdlib.h": "c",
+        "stdio.h": "c",
+        "type_traits": "c"
+    },
+    "C_Cpp.clang_format_fallbackStyle": "{ ColumnLimit: 160 }",
+}
